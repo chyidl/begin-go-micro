@@ -1,0 +1,180 @@
+Golang Micro
+============
+```
+1. Go高并发特性适合大型系统开发
+2. Go编译迅速，无依赖环境，适合容器化
+```
+
+微服务整体架构
+--------------
+    * 前端应用 -
+    * API 网关 - micro API
+    * 接口层
+        * 用户接口
+        * 订单接口
+        * 购物车接口
+        * 支付接口
+        * 分类接口
+    * 应用层
+    * 领域层
+        * 领域服务
+            * 用户服务
+            * 订单服务
+            * 购物车服务
+            * 支付服务
+            * 分类服务
+        * 微服务技术
+            * 注册中心 consul
+            * 链路追踪 jaeger
+            * 监控 prometheus
+            * 熔断器 hystrix
+            * 通信 gRPC
+            * 限流 ratelimit
+            * 负载均衡 selector
+            * 配置中心 consul
+            * 日志 zap + ELK
+            * 协议 protobuf
+        * 工具架构
+            * kompose
+            * docker-compose
+            * micro cli
+            * Docker
+            * go-micro
+        * 基础设施调用
+    * 基础设施层
+        * 基础设施调用
+            * MySQL/Postgres
+            * Redis
+
+微服务基本介绍
+--------------
+```
+# 微服务
+    1. 是一种架构模式
+    2. 相比较单体架构，微服务架构更加独立，能够单独更新和发布
+    3. 微服务里面的服务仅仅用于某一个特定的业务功能
+
+    -- 为什么需要
+        1. 逻辑清晰
+        2. 快速迭代
+        3. 多语言灵活组合
+
+    --- DDD Domain Driven Design 领域驱动设计
+        微服务颗粒划分
+        康威定律: Conway's Law
+            组织 对应 微服务拆分
+        1. 真正决定软件复杂性的是设计方法 -- 设计复杂性
+
+        2. 有助于知道确定系统边界
+        3. 能够聚焦在系统核心元素上
+        4. 帮助我们拆分系统
+    领域:
+        领域: 领域是有范围界限，也可以说是边界
+        核心领域: 核心域是业务系统的核心价值
+        通用子域：所有子域的消费者，提供者通用服务
+        支撑子域: 专注业务系统的某一重要业务
+    界限上下文:
+        不在于如何划分边界，而是在于如何控制边界
+    领域模型:
+        是解决问题的抽象表达
+        领域: 反应我们业务上需要解决的问题
+        模型：针对问题提出的解决方案
+
+# DDD领域微服务四层架构:
+    Interface 接口 --
+    Application 应用层 --
+    Domain 领域层 -- 业务规则
+    Infrastructure 基础设施层 -- 中间件 云设施
+
+# 设计原则
+    1. 要使用领域驱动设计，而不是数据驱动设计，也不是界面驱动设计
+    2. 要清晰边界的微服务 [服务该做什么；不该做什么]
+    3. 职能清晰的分层
+    4. 要做自己能hold住的微服务，而不是过度拆分微服务
+```
+
+Go-micro
+--------
+> Go Micro is a framework for distributed systems development.
+    * RPC
+    ```
+    RPC代指远程过程调用 Remote Procedure Call
+    包含传输协议和编码协议(对象序列化)协议
+    允许运行与一台计算机的程序调用另一台计算机的子程序
+    ```
+    * gRPC
+    ```
+    gRPC 是一个高性能、开源、的通用RPC框架
+    基于HTTP2.0 协议标准设计开发
+    支持多语言，默认采用Protocol Buffers 数据序列化协议
+        gRPC Server: <-- proto Response
+        gRPC Stub: --> proto request
+    ```
+
+    * Protocol Buffer
+    ```
+    是一种轻便高效的序列化结构化数据协议
+    通常使用在存储数据和需要远程数据通信的程序
+    跨语言、更小、更快、更简单
+    加速站点内数据传输速度
+    解决数据传输不规范问题
+
+    -- Protocol Buffer 常用概念
+        Message: 描述一个请求/响应的消息格式
+            字段修饰符:
+                singular: 表示成员有0个或者一个，一般省略不写
+                repeated: 表示该字段可以包含0-N个元素
+        字段标识: 消息的定义中，每个字段都有一个唯一的数值标签
+        常用数据类型:
+            double
+            float
+            int32/uint32/int64/uint64/sint32/sint64/fixed32/fixed64/sfixed32/sfixed64
+            bool
+            string
+            bytes
+            map
+        Service服务定义:
+            可以定义一个RPC服务接口
+    ```
+
+Docker 介绍
+-----------
+```
+# 为什么需要Docker
+    软件更新发布及部署低效， 过程繁琐需要人工介入
+    环境一致性难以保证，不同环境之间迁移成本太高
+    构建容易分发简单
+
+# 应用场景
+    构建运行环境
+    微服务
+    CI/CD 环境的一致性
+
+# Docker 介绍
+    客户端Client: docker command line
+    服务器进程: Docker Daemon -- 管理镜像和容器
+    镜像仓库: 存储镜像
+
+    Images: 镜像模版
+    Containers: 容器
+
+    $ docker build
+    $ docker push/pull
+    $ docker run/start/stop/rm -p -v
+    $ docker images rmi
+    $ docker version
+    $ docker ps
+
+    # 启动Nginx服务
+    $ docker run -p 80:80 nginx
+```
+
+* Compile the protobufs inside a Docker container
+```
+# Dockerfile.protogen
+FROM golang:1.16
+
+ENV PROTOC_VERSION 3.17.3
+ENV PROTOC_GEN_GO_VERSION v1.16
+
+```
