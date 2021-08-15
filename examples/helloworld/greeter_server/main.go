@@ -25,7 +25,7 @@ import (
 	"net"
 
 	"google.golang.org/grpc"
-	pb "google.golang.org/grpc/examples/helloworld/helloworld"
+	pb "github.com/chyidl/begin-go-mico/examples/helloworld/helloworld"
 )
 
 const (
