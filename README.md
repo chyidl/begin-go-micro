@@ -93,8 +93,8 @@ Golang Micro
     4. 要做自己能hold住的微服务，而不是过度拆分微服务
 ```
 
-Go-micro
---------
+Micro & Go-micro
+----------------
 > Go Micro is a framework for distributed systems development.
     * RPC
     ```
@@ -136,6 +136,52 @@ Go-micro
         Service服务定义:
             可以定义一个RPC服务接口
     ```
+    * Micro
+    ```
+        Auth: 授权
+        Build: Source to Binary Compilation
+        Broker: Publish & Subscribe Messaging
+        Config: Dynamic Config & Secrets
+        Events: Event Streaming and Storage
+        Network: Service Networking & Routing Plane
+        Registry: Service Registry and Endpoint Explorer
+        Runtime: Service Lifecycle & Process Manager
+        Store: Persistent Key-Value & CRUD Storage
+        Plugins: Infrastructure Agnostic Plugins
+    ```
+    * go-micro
+    ```
+    Micro:
+        用来构建和管理分布式程序的系统
+        Runtime(运行时) 用来管理配置，认证，网络
+            工具集: micro
+            docker pull micro/micro
+
+            api: api网关
+            broker: 允许异步消息的消息代理
+            network: 通过微网络服务构建多云网络
+            new: 服务模版生成器
+            proxy: 建立在Go Micro上透明服务代理
+            registry: 服务资源管理器
+            store: 简单的状态存储
+            web: Web仪表盘允许浏览服务
+
+        Framework(程序开发框架): 用来方便编写微服务
+            是对分布式系统的高度抽象
+            提供分布式系统开发的核心库
+            可插拔的架构，按需使用
+
+            -- 组件:
+                注册 Registry: 提供服务发现机制
+                选择器 Selector: 能够实现负载均衡
+                传输 Transport: 服务与服务之间通信接口
+                broker: 提供异步通信的消息发布/订阅接口
+                codec: 消息传递到两端时进行编码与解码
+
+                Server, Client
+        Clients
+
+    ```
 
 Docker 介绍
 -----------
@@ -169,12 +215,3 @@ Docker 介绍
     $ docker run -p 80:80 nginx
 ```
 
-* Compile the protobufs inside a Docker container
-```
-# Dockerfile.protogen
-FROM golang:1.16
-
-ENV PROTOC_VERSION 3.17.3
-ENV PROTOC_GEN_GO_VERSION v1.16
-
-```
