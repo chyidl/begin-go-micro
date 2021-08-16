@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/micro/micro/v3/service"
 	proto "github.com/chyidl/begin-go-micro/examples/helloworld/proto"
+	"github.com/micro/micro/v3/service"
 	"time"
 )
 
@@ -25,7 +25,7 @@ func main() {
 	}
 
 	// print the response
-	fmt.Println("Response: ", rsp.Message)
+	fmt.Println("Response: ", rsp.Msg)
 
 	// let's delay the process for existing for reason you'll see below
 	time.Sleep(time.Second * 5)
