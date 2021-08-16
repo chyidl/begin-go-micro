@@ -239,18 +239,20 @@ Micro Getting Started
     ```
 
     * protoc-gen-go
+    > is a protoc plugin to generate a Go protocol buffer package.
     ```
     $ go get github.com/golang/protobuf/protoc-gen-go
     ```
 
     * protoc-gen-micro
+    > using protoc-gen-micro to reduce boilerplate code
     ```
     $ go get github.com/micro/micro/v3/cmd/protoc-gen-micro
     ```
 
 * Install
 ```
-$ go get github.com/micro/micro/v3
+$ go get github.com/micro/micro/v3@v3.2.0
 ```
 
 * Running a services
@@ -260,4 +262,9 @@ $ micro server
 
 # interacting with the micro server (admin, micro)
 $ micro login
+
+# list the services
+$ micro services
+
+
 ```

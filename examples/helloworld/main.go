@@ -1,30 +1,25 @@
 package main
 
 import (
-	"context"
-	pb "github.com/asim/go-micro/examples/v3/helloworld/proto"
-	"github.com/asim/go-micro/v3"
-	"github.com/micro/micro/v3/cmd/protoc-gen-micro/plugin/micro"
-	"log"
+	"helloworld/handler"
+	pb "helloworld/proto"
+
+	"github.com/micro/micro/v3/service"
+	"github.com/micro/micro/v3/service/logger"
 )
 
-type Greeter struct {
-}
-
-func (g *Greeter) Hello(ctx context.Context, req *pb.Request, rsp *pb.Response) error {
-	rsp.Greeting = "Hello " + req.Name
-	return nil
-}
-
 func main() {
-	service := micro.NewService(
-		micro.Name("helloworld"),
-		)
-	service.Init()
+	// Create service
+	srv := service.New(
+		service.Name("helloworld"),
+		service.Version("latest"),
+	)
 
-	pb.RegisterGreeterHandler(service.Server(), new(Greeter))
+	// Register handler
+	pb.RegisterHelloworldHandler(srv.Server(), new(handler.Helloworld))
 
-	if err := service.Run(); err != nil {
-		log.Fatal(err)
+	// Run service
+	if err := srv.Run(); err != nil {
+		logger.Fatal(err)
 	}
 }
