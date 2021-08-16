@@ -5,20 +5,20 @@ import (
 
 	log "github.com/micro/micro/v3/service/logger"
 
-	helloworld "helloworld/proto"
+	helloworld "chyidl.com/chyidl/begin-go-micro/examples/helloworld/proto"
 )
 
 type Helloworld struct{}
 
 // Call is a single request handler called via client.Call or the generated client code
-func (e *Helloworld) Call(_ context.Context, req *helloworld.Request, rsp *helloworld.Response) error {
+func (e *Helloworld) Call(ctx context.Context, req *helloworld.Request, rsp *helloworld.Response) error {
 	log.Info("Received Helloworld.Call request")
 	rsp.Msg = "Hello " + req.Name
 	return nil
 }
 
 // Stream is a server side stream handler called via client.Stream or the generated client code
-func (e *Helloworld) Stream(_ context.Context, req *helloworld.StreamingRequest, stream helloworld.Helloworld_StreamStream) error {
+func (e *Helloworld) Stream(ctx context.Context, req *helloworld.StreamingRequest, stream helloworld.Helloworld_StreamStream) error {
 	log.Infof("Received Helloworld.Stream request with count: %d", req.Count)
 
 	for i := 0; i < int(req.Count); i++ {
@@ -34,7 +34,7 @@ func (e *Helloworld) Stream(_ context.Context, req *helloworld.StreamingRequest,
 }
 
 // PingPong is a bidirectional stream handler called via client.Stream or the generated client code
-func (e *Helloworld) PingPong(_ context.Context, stream helloworld.Helloworld_PingPongStream) error {
+func (e *Helloworld) PingPong(ctx context.Context, stream helloworld.Helloworld_PingPongStream) error {
 	for {
 		req, err := stream.Recv()
 		if err != nil {

@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/micro/micro/v3/service"
-	proto "github.com/chyidl/begin-go-mico/examples/helloworld/proto"
+	proto "github.com/chyidl/begin-go-micro/examples/helloworld/proto"
 	"time"
 )
 
