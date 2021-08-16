@@ -137,19 +137,25 @@ Micro & Go-micro
             可以定义一个RPC服务接口
     ```
     * Micro
+    > Micro is a cloud platform for API development
+    - [micro-about](./misc/micro-3.0.png)
     ```
-        Auth: 授权
-        Build: Source to Binary Compilation
-        Broker: Publish & Subscribe Messaging
-        Config: Dynamic Config & Secrets
-        Events: Event Streaming and Storage
-        Network: Service Networking & Routing Plane
-        Registry: Service Registry and Endpoint Explorer
-        Runtime: Service Lifecycle & Process Manager
-        Store: Persistent Key-Value & CRUD Storage
-        Plugins: Infrastructure Agnostic Plugins
+    1. Server
+        API - HTTP Gateway maps HTTP/json -> RPC
+        Auth - Authentication(验证) and Authenrization(授权) jwt token and rule based access control
+        Broker - pubsub messaging for asynchronous communication and distributed notification
+        Config - 动态配置
+        Events - 事件流
+        Network - inter-service networking, isolation and routing plane
+        Proxy - remote access and external grpc request
+        Runtime -
+        Registry - service discovery and API endpoint explorer
+        Store - Key-Value storage with TTL expiry and persistent crud to keep microservices stateless
+    2. Framework: 框架
+    3. Command Line:
+    4. Environments:
 
-        查看日志 /tmp/micro/logs
+    Micro service which do one thing well and communication over the network or via pubsub messaging where necessary
     ```
     * go-micro
     ```
@@ -181,7 +187,6 @@ Micro & Go-micro
                 codec: 消息传递到两端时进行编码与解码
 
                 Server, Client
-        Clients
     ```
 
 Docker 介绍
