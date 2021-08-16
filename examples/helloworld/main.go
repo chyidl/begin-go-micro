@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/chyidl/begin-go-micro/examples/helloworld/handler"
-	pb "github.com/chyidl/begin-go-micro/examples/helloworld/proto"
+	"github.com/chyidl/begin-go-mico/examples/helloworld/handler"
+	pb "github.com/chyidl/begin-go-mico/examples/helloworld/proto"
 
 	"github.com/micro/micro/v3/service"
 	"github.com/micro/micro/v3/service/logger"
