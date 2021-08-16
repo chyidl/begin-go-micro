@@ -221,3 +221,43 @@ Docker 介绍
     $ docker run -p 80:80 nginx
 ```
 
+Micro Getting Started
+---------------------
+* Dependencies
+    * protobuf
+    > protoc: The Google protobuf compiler
+    ```
+    # macOS
+    $ brew install protobuf (brew upgrade protobuf)
+
+    # Linux
+    $ PROTOC_ZIP=protoc-3.14.0-linux-x86_64.zip
+    $ curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v3.14.0/$PROTOC_ZIP
+    $ sudo unzip -o $PROTOC_ZIP -d /usr/local bin/protoc
+    $ sudo unzip -o $PROTOC_ZIP -d /usr/local 'include/*'
+    $ rm -f $PROTOC_ZIP
+    ```
+
+    * protoc-gen-go
+    ```
+    $ go get github.com/golang/protobuf/protoc-gen-go
+    ```
+
+    * protoc-gen-micro
+    ```
+    $ go get github.com/micro/micro/v3/cmd/protoc-gen-micro
+    ```
+
+* Install
+```
+$ go get github.com/micro/micro/v3
+```
+
+* Running a services
+```
+# start the micro service
+$ micro server
+
+# interacting with the micro server (admin, micro)
+$ micro login
+```
