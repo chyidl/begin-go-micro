@@ -148,6 +148,8 @@ Micro & Go-micro
         Runtime: Service Lifecycle & Process Manager
         Store: Persistent Key-Value & CRUD Storage
         Plugins: Infrastructure Agnostic Plugins
+
+        查看日志 /tmp/micro/logs
     ```
     * go-micro
     ```
@@ -180,7 +182,6 @@ Micro & Go-micro
 
                 Server, Client
         Clients
-
     ```
 
 Docker 介绍
