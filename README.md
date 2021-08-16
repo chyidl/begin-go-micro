@@ -252,7 +252,11 @@ Micro Getting Started
 
 * Install
 ```
+# local install 
 $ go get github.com/micro/micro/v3@v3.2.0
+
+# Docker install
+$ docker pull micro/micro
 ```
 
 * Running a services
@@ -266,5 +270,10 @@ $ micro login
 # list the services
 $ micro services
 
+# create the micro new
+(using local install micro)
+$ micro new project-name
 
+(using docker micro image)
+$ docker run --rm -v $(pwd):$(pwd) -v $(pwd) micro/micro new project-name
 ```
