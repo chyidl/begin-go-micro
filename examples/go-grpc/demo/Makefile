@@ -1,5 +1,3 @@
-.PHONY: compile
-
 
 compile:
 	# protoc-gen-go 不支持多包同时编译
@@ -9,3 +7,8 @@ compile:
 		--go_out=. --go_opt=paths=source_relative \
 		--go-grpc_out=. --go-grpc_opt=paths=source_relative \
         proto/**/*.proto
+
+cert:
+	cd scripts; ./gen_cert.sh; cd ..
+
+.PHONY: compile cert

@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/chyidl/begin-go-micro/examples/go-grpc/demo/proto/user"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 	"log"
 	"time"
 )
@@ -13,8 +14,12 @@ const (
 )
 
 func main() {
+	creds, err:= credentials.NewClientTLSFromFile("certs/server.crt", "chyidl.com")
+	if err != nil {
+		log.Fatal(err)
+	}
 	// Set up a connection to the server.
-	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
+	conn, err := grpc.Dial(address, grpc.WithTransportCredentials(creds))
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}

@@ -5,8 +5,10 @@ import (
 	"github.com/chyidl/begin-go-micro/examples/go-grpc/demo/proto/article"
 	"github.com/chyidl/begin-go-micro/examples/go-grpc/demo/proto/user"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 	"log"
 	"net"
+	"path/filepath"
 )
 
 const (
@@ -46,7 +48,15 @@ func main() {
 			err,
 		)
 	}
-	s := grpc.NewServer()
+	// Server authentication SSL/TLS
+	certFile := filepath.Join("certs", "server.crt")
+	keyFile := filepath.Join("certs", "server_no_passwd.key")
+	creds, err := credentials.NewServerTLSFromFile(certFile, keyFile)
+	if err != nil {
+		log.Fatal(err)
+	}
+	s := grpc.NewServer(grpc.Creds(creds))
+
 	user.RegisterUserServer(s, &server{})
 	log.Printf("server listening at %v", lis.Addr())
 	if err := s.Serve(lis); err != nil {
