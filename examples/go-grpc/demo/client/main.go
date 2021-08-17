@@ -24,22 +24,18 @@ func main() {
 			log.Fatalf("could not close conn: %s", err)
 		}
 	}(conn)
+
 	c := user.NewUserClient(conn)
 
 	// Contact the server and print out its response
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
+
 	r, err := c.GetUserInfo(ctx, &user.UserID{
 		ID: 9527,
 	})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
-	/*
-	  int64 ID = 1;
-	  string Name = 2;
-	  int32 Age = 3;
-	  gender Gender = 4;
-	*/
 	log.Printf("ID: %d, Name: %s, Age: %d, Gender: %s", r.GetID(), r.GetName(), r.GetAge(), r.GetGender())
 }
