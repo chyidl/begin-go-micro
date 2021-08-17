@@ -5,7 +5,7 @@ Follow these setup to run the [quick start][] example:
     1. Get the code:
     ```console
     $ go get github.com/chyidl/begin-go-micro/examples/go-grpc/demo/server/user_server
-    $ go get github.com/chyidl/begin-go-micro/examples/go-grpc/demo/server/user_client
+    $ go get github.com/chyidl/begin-go-micro/examples/go-grpc/demo/client/user_client
     ```
     
     2. Run the server:
