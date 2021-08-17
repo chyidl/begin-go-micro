@@ -189,6 +189,22 @@ Micro & Go-micro
                 Server, Client
     ```
 
+GORM
+----
+```markdown
+Go 语言实现数据库访问的ORM(对象关系映射)库
+
+# 依赖库
+    -- gorm
+    go get github.com/go-gorm/gorm
+    
+    -- 数据库驱动
+    go get github.com/go-sql-driver/mysql
+    go get github.com/lib/pq
+    
+    -- 
+```
+
 Docker 介绍
 -----------
 ```
@@ -276,4 +292,26 @@ $ micro new project-name
 
 (using docker micro image)
 $ docker run --rm -v $(pwd):$(pwd) -v $(pwd) micro/micro new project-name
+
+# 注意事项
+    使用micro new 创建的go.mod 需要删除 重新go mod init github.com/
+```
+
+Go Module Settings
+------------------
+```markdown
+# Go Module 基本设置
+    开启GOMODULE
+    export GO111MODULE=on
+    1. Go module 使用GOPROXY环境变量解决无法使用go get 的问题
+    export GOPROXY="https://goproxy.io"
+
+# Go Module 私有仓库设置
+    $ go env # 查看参数
+    GOPRIVATE="*.chyidl.com"
+
+# Go Module 设置Git转发
+    go get 内部使用 git clone 命令，默认只支持共有仓库
+    替换https为ssh请求
+    $ git config --global url."ssh://git@git".insteadOf "https://"
 ```
