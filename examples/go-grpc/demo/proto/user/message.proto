@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package user;
-option go_package = "github.com/chyidl/begin-go-micro/examples/go-grpc-demo/proto/user";
+option go_package = "github.com/chyidl/begin-go-micro/examples/go-grpc/demo/proto/user";
 
 message UserID {
   int64 ID = 1;

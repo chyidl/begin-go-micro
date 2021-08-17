@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package article;
 
-option go_package = "github.com/chyidl/begin-go-micro/examples/go-grpc-demo/proto/article";
+option go_package = "github.com/chyidl/begin-go-micro/examples/go-grpc/demo/proto/article";
 
 message Articles {
   repeated Article Articles = 1;

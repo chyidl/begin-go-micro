@@ -4,7 +4,7 @@ syntax = "proto3";
 package user;
 
 // 声明生成go文件所属的包
-option go_package = "github.com/chyidl/begin-go-micro/examples/go-grpc-demo/proto/user";
+option go_package = "github.com/chyidl/begin-go-micro/examples/go-grpc/demo/proto/user";
 
 // 导入同包内的proto文件
 import "proto/user/message.proto";
