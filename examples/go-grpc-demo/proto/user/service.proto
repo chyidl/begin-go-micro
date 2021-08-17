@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+// 声明所在的包
+package user;
+
+// 声明生成go文件所属的包
+option go_package = "github.com/chyidl/begin-go-micro/examples/go-grpc-demo/proto/user";
+
+// 导入同包内的proto文件
+import "github.com/chyidl/begin-go-micro/examples/go-grpc-demo/proto/user/message.proto";
+// 导入其他包的proto文件
+import "github.com/chyidl/begin-go-micro/examples/go-grpc-demo/proto/article/message.proto";
+
+service User {
+  rpc GetUserInfo (UserID) returns (UserInfo);
+  rpc GetUserFavArticle (UserID) returns (article.Articles.Article);
+}

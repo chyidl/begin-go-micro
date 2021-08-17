@@ -254,7 +254,7 @@ Micro Getting Started
     $ rm -f $PROTOC_ZIP
     ```
 
-    * protoc-gen-go
+    * protoc-gen-go [编译Golang插件]
     > is a protoc plugin to generate a Go protocol buffer package.
     ```
     $ go get github.com/golang/protobuf/protoc-gen-go
@@ -315,3 +315,20 @@ Go Module Settings
     替换https为ssh请求
     $ git config --global url."ssh://git@git".insteadOf "https://"
 ```
+
+GO GRPC
+-------
+```markdown
+RPC: 远程过程调用
+    -- 过程:
+    1. 客户端发送数据(以字节流的方式)
+    2. 服务端接收，并解析，根据约定执行 将执行结果返回客户端
+
+gRPC:
+```
+* Protobuf
+> 轻便高校的序列化数据结构的协议，可以用于网络通信和数据存储，特点：性能高、传输快、维护方便
+```markdown
+
+```
+
