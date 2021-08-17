@@ -7,14 +7,20 @@ import (
 	pb "github.com/chyidl/begin-go-micro/services/user/proto/user"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"os"
 	"time"
 
+	"github.com/joho/godotenv"
 	"github.com/micro/micro/v3/service"
 	"github.com/micro/micro/v3/service/logger"
 	"log"
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 	// Create service
 	srv := service.New(
 		service.Name("begin-go-micro.user"),
@@ -25,7 +31,7 @@ func main() {
 	srv.Init()
 
 	// 创建数据库连接
-	dsn := "chyi@29Wtdwv3hMmsj2gDEd7W*RDB@tcp(remote.mysql.baidu:3306)/develop?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := os.Getenv("MYSQL_DSN")
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)
