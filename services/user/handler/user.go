@@ -4,12 +4,10 @@ import (
 	"context"
 	"github.com/chyidl/begin-go-micro/services/user/domain/model"
 	"github.com/chyidl/begin-go-micro/services/user/domain/service"
-
-	log "github.com/micro/micro/v3/service/logger"
-
 	"github.com/chyidl/begin-go-micro/services/user/proto/user"
 )
 
+// User 绑定接口类型和实例
 type User struct{
 	UserDataService service.IUserDataService
 }
@@ -19,25 +17,23 @@ func (u *User)Register(_ context.Context, request *user.UserRegisterRequest, res
 	userRegister := &model.User{
 		UserName: request.UserName,
 		FirstName: request.FirstName,
-		HashPassword: request.Password,
+		HashPassword: request.Pwd,
 	}
 
 	_, err := u.UserDataService.AddUser(userRegister)
 	if err != nil {
 		return err
 	}
-	log.Info("some log")
 	response.Message = "注册成功"
 	return nil
 }
 
 // Login 登陆
 func (u *User)Login(_ context.Context, request *user.UserLoginRequest, response *user.UserLoginResponse) error {
-	isOk, err := u.UserDataService.CheckPwd(request.UserName, request.Password)
+	isOk, err := u.UserDataService.CheckPwd(request.UserName, request.Pwd)
 	if err != nil {
 		return err
 	}
-
 	response.IsSuccess = isOk
 	return nil
 }

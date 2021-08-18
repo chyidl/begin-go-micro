@@ -1,27 +1,17 @@
 package main
 
 import (
+	"fmt"
 	"github.com/chyidl/begin-go-micro/services/user/domain/repository"
 	service2 "github.com/chyidl/begin-go-micro/services/user/domain/service"
 	"github.com/chyidl/begin-go-micro/services/user/handler"
 	pb "github.com/chyidl/begin-go-micro/services/user/proto/user"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
-	"os"
-	"time"
-
-	"github.com/joho/godotenv"
+	"github.com/jinzhu/gorm"
 	"github.com/micro/micro/v3/service"
 	"github.com/micro/micro/v3/service/logger"
-	"log"
 )
 
 func main() {
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatal("Error loading .env file", err)
-	}
-
 	// Create service
 	srv := service.New(
 		service.Name("begin-go-micro.user"),
@@ -32,23 +22,13 @@ func main() {
 	srv.Init()
 
 	// 创建数据库连接
-	dsn := os.Getenv("MYSQL_DSN")
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open("mysql", "user:password@/db?charset=utf8&parseTime=True&local=Local")
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
 	}
-	// 维护数据库连接池
-	sqlDB, err := db.DB()
-	if err != nil {
-		log.Fatalln(err)
-	}
-	// 设置空闲连接池中连接的最大数量
-	sqlDB.SetMaxIdleConns(10)
-	// 设置打开数据库连接的最大数量
-	sqlDB.SetMaxOpenConns(100)
-	// 设置连接可复用的最大时间
-	sqlDB.SetConnMaxLifetime(time.Hour)
-	defer sqlDB.Close()
+	defer db.Close()
+
+	db.SingularTable(true)
 
 	// 只执行一次，数据库表初始化
 	rp := repository.NewUserRepository(db)

@@ -8,8 +8,8 @@ import (
 )
 
 type IUserDataService interface {
-	AddUser(*model.User) (uint64, error)
-	DeleteUser(uint64) error
+	AddUser(*model.User) (int64, error)
+	DeleteUser(int64) error
 	UpdateUser(user *model.User, isChangePwd bool) (err error)
 	FindUserByName(string) (*model.User, error)
 	CheckPwd(userName string, password string) (isOk bool, err error)
@@ -38,7 +38,7 @@ func ValidatePassword(userPassword string, hashed string) (isOk bool, err error)
 }
 
 // AddUser 插入用户
-func (u *UserDataService) AddUser(user *model.User) (userID uint64, err error) {
+func (u *UserDataService) AddUser(user *model.User) (userID int64, err error) {
 	// 对用户密码加密
 	pwdByte, err := GeneratePassword(user.HashPassword)
 	if err != nil {
@@ -50,7 +50,7 @@ func (u *UserDataService) AddUser(user *model.User) (userID uint64, err error) {
 }
 
 // DeleteUser 删除用户
-func (u *UserDataService) DeleteUser(userID uint64) error {
+func (u *UserDataService) DeleteUser(userID int64) error {
 	return u.UserRepository.DeleteUserByID(userID)
 }
 
