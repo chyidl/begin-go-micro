@@ -38,3 +38,9 @@ micro run .
 ```markdown
 
 ```
+
+Go Module设置
+```markdown
+# 替换https为ssh请求
+$ git config --global utl."ssh://git@git.xxx.com/".insteadOf "https://git.xxx.com/"
+```

@@ -120,6 +120,7 @@ Micro & Go-micro
     解决数据传输不规范问题
 
     -- Protocol Buffer 常用概念
+        Note that the name of the message should be UpperCamelCase, and the name of the field should be lower_snake_case
         Message: 描述一个请求/响应的消息格式
             字段修饰符:
                 singular: 表示成员有0个或者一个，一般省略不写
@@ -196,12 +197,10 @@ Go 语言实现数据库访问的ORM(对象关系映射)库
 
 # 依赖库
     -- gorm
-    go get github.com/go-gorm/gorm
+    go get github.com/jinzhu/gorm
     
     -- 数据库驱动
     go get github.com/go-sql-driver/mysql
-    go get github.com/lib/pq
-    
     -- 
 ```
 
@@ -375,7 +374,7 @@ data should be structured the same way in-memory and on the wire. thus avoiding 
     5. Frames from different streams are interleaved(交错) and then reassembled on the other side.
 ```
 
-HTTP/2 vs HTTP/1.1
+- HTTP/2 vs HTTP/1.1
 
 | | HTTP/2| HTTP/1.1|
 |:---|:----|:--------|
@@ -385,3 +384,47 @@ HTTP/2 vs HTTP/1.1
 | Requests per connection| Multiple| 1|
 | Server Push| Yes| No|
 |Release Year| 2015| 1997|
+
+- Types of gRPC
+    * Unary
+    * Client Streaming
+    * Server Streaming
+    * Bidirectional Streaming
+    ```markdown
+    arbitrary order， flexible and no blocking
+    ```
+
+- gRPC vs. REST
+
+| FEATURE       | GRPC              | REST          |
+|:--------------|:------------------|:--------------|
+| Protocol      |HTTP/2 fast        |HTTP/1.1 slow  |
+| Payload       |Protobuf (binary, small)| JSON (text, large)|
+| API contract  |Strict, required (.proto)|Loose, optional (OpenAPI)|
+| Code generation| Built-in (protoc)| Third-party tools (Swagger)|
+| Security      | TLS/SSL           | TLS/SSL |
+| Streaming     | Bidirectional streaming | Client -> server request only |
+
+- gRPC Suit
+```markdown
+# Microservices
+    Low latency and high throughput communication
+    Strong API contract
+
+# Polyglot environments
+    Code generation out of the box for many languages
+
+# Point-to-point realtime communication
+    Excellent support for bidirectional streaming
+
+# Network constrained environments
+    Lightweight message format
+```
+
+- ProtocolBuf
+```markdown
+1. Note that the name of the message should be UpperCamelCase, and the name of the field should be lower_snake_case
+2. Each message field should be assigned a unique tag.
+3. A tag is simply an arbitrary integer with the smallest value of 1, and the biggest value of 2^29-1. except for numbers from 19000 to 19999, as they're reserved for internal protocol buffers implementation.
+4. Note that tags from 1 to 15 take only 1 byte to encode, while those from 16 to 2047 take 2 bytes.
+```

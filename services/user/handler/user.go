@@ -7,7 +7,7 @@ import (
 
 	log "github.com/micro/micro/v3/service/logger"
 
-	user "github.com/chyidl/begin-go-micro/services/user/proto/user"
+	"github.com/chyidl/begin-go-micro/services/user/proto/user"
 )
 
 type User struct{
@@ -15,7 +15,7 @@ type User struct{
 }
 
 // Register 注册
-func (u *User)Register(ctx context.Context, request *user.UserRegisterRequest, response *user.UserRegisterResponse) error {
+func (u *User)Register(_ context.Context, request *user.UserRegisterRequest, response *user.UserRegisterResponse) error {
 	userRegister := &model.User{
 		UserName: request.UserName,
 		FirstName: request.FirstName,
@@ -32,7 +32,7 @@ func (u *User)Register(ctx context.Context, request *user.UserRegisterRequest, r
 }
 
 // Login 登陆
-func (u *User)Login(ctx context.Context, request *user.UserLoginRequest, response *user.UserLoginResponse) error {
+func (u *User)Login(_ context.Context, request *user.UserLoginRequest, response *user.UserLoginResponse) error {
 	isOk, err := u.UserDataService.CheckPwd(request.UserName, request.Password)
 	if err != nil {
 		return err
@@ -43,7 +43,7 @@ func (u *User)Login(ctx context.Context, request *user.UserLoginRequest, respons
 }
 
 // GetUserInfo 查询
-func (u *User)GetUserInfo(ctx context.Context, request *user.UserInfoRequest, response *user.UserInfoResponse) error {
+func (u *User)GetUserInfo(_ context.Context, request *user.UserInfoRequest, response *user.UserInfoResponse) error {
 	userInfo, err := u.UserDataService.FindUserByName(request.UserName)
 	if err != nil {
 		return err
