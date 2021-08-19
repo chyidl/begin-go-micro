@@ -428,3 +428,78 @@ data should be structured the same way in-memory and on the wire. thus avoiding 
 3. A tag is simply an arbitrary integer with the smallest value of 1, and the biggest value of 2^29-1. except for numbers from 19000 to 19999, as they're reserved for internal protocol buffers implementation.
 4. Note that tags from 1 to 15 take only 1 byte to encode, while those from 16 to 2047 take 2 bytes.
 ```
+
+
+Golang Interview
+----------------
+0. OS Scheduler
+```markdown
+CPU caches: 
+NUMA:
+PC: program counter / IP: Instruction pointer 记录将要执行下一行地址
+```
+
+2. Golang调度机制
+```markdown
+Concurrent: 并发
+Parallel: 并行
+Concurrency is about dealing with lots of things at once. Parallelism is about doing lots of things at once.
+    
+goroutine(协程) are a golang wrapper on top of threads(线程) and managed by Go runtime(运行时) rather than the operating system.
+Goroutine does not have a one-to-one relationship with threads.
+
+gorountine:
+用户态调度器:
+
+C、C++语言编译之后执行完全依赖操作系统内核控制执行
+Golang 在编译时加入自己的调度器代码，执行上按照自己的调度器进行调度执行
+
+Gorountine调度器组成部分:
+    1. 数据结构
+        全局Global Queue 存放等待运行的G
+        G: Goroutine 存储goroutine的执行stack信息，goroutinue状态以及goroutinue的任务函数
+        M: Thread 操作系统线程, 真正执行的计算资源，
+            从P的本地队列中获取G，P队列为空时，M会从全局队列中那一批G放在P的本地队列，或从其他P的本地队列偷一半放到自己P的本地队列
+            M的数量: go语言本身限制，go程序启动时，会设置M的最大数量，默认10000
+            一个M阻塞会创建新的M
+        P: Processor 逻辑CPU处理器(golang对CPU的抽象) runtime.GOMAXPROCS(numLogicalProcessors) 控制P = CPU核心数, P的数量决定系统内最大可并行的G的数量
+            P中存放等待运行的G队列,新创建的G',优先加入到P的本地队列，如果队列满了，则会把本地队列中的一半G移动到全局队列
+            P列表：所有的P都在程序启动时创建，并保存在数组中，最多有GOMAXPROCS可配置
+            P的数量：由启动时环境变量$GOMAXPROCS或者runtime.GOMAXPROCS 决定, 意味着在程序执行的任意时刻都只有$GOMAXPROCS个goroutine同时运行
+        Goroutine调度器和OS调度器时通过M结合起来的，每个M都代表1个内核线程，OS调度器负责把内核线程分配到CPU的核上执行
+    调度器设计策略：
+        复用线程: 避免频繁的创建、销毁线程，而是对线程的复用
+            1.work stealing 机制
+                > 当本线程无可执行的G时，尝试从其他线程绑定P偷取G，而不是销毁线程
+            2. hand off机制
+                当本地线程因为G进行系统调用阻塞时，线程释放绑定的P，把P转移给其他空闲的线程执行
+        利用并行: GOMAXPROCS 设置P的数量，最多有GOMAXPROCS个线程分布在多个CPU上同时运行
+        抢占: 在coroutine中要等待一个协程主动让出CPU才执行下一个协程， 在Go中，一个goroutine最多占用CPU 10ms, 防止其他goroutine被饿死，
+        全局G队列: 新的调度器中依然有全局G队列，但功能已经被弱化，当M执行work stealing从其他P偷不到G时，可以从全局G队列中获取G
+    
+    特殊的M0和G0:
+        M0: 是启动程序后编号为0的主线程,这个M对应的实例会在全局变量runtime.m0中，不需要在heap上分配，M0负责执行初始化操作和启动第一个G，在之后M0就和其他M一样
+        G0: 是每次启动一个M都会第一个创建的goroutine, GO仅用于负责调度G，G0不知想任何可执行的函数，每个M都会有一个自己的G0，在调度或系统调用时会使用G0的栈栈空间，全局变量的G0是M0的G0
+            G0负责协调写成切换schedule()函数
+        全局队列到P本地队列的负载均衡:
+            n = min(len(GQ)/GOMAXPROCS + 1, len(GQ/2))
+        M自旋线程: 会寻找可运行的G(全局为空，则向其他的MP者偷取),系统中最多有GOMAXPROCS个自旋的线程 - 多余的线程会进入休眠
+
+    2. 调度算法
+        fifo: first in first out
+        权重调度
+        时间片调度
+    3. 环境管理
+        堆栈管理，Golang的栈管理使用连续栈实现方式，空间不足时，分配更大的栈并把旧栈拷贝到新栈
+
+GPM之间关系:
+    1. G需要绑定在M上才能运行
+    2. M需要绑定P才能运行
+    3. 程序中多个M并不会同时处于执行状态，最多只有GO MAXPROCS个M在执行
+    4. 每个P维护一个G队列
+    5. 当一个G被创建出来，或者变为可执行状态时，就把他放到P的可执行队列中
+    6. 当一个G执行结束时，P会从队列中把G取出，如果此时P的队列为空，即没有其他G可以执行，就随机选择另外一个P，从其可执行的G中偷取一半(work-stealing调度算法)
+
+线程分为: "内核态线程" -co-routine 和 "用户态线程"
+线程是有CPU调度是抢占室 协程是由用户态调度是写协做时的
+```
